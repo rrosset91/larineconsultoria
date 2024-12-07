@@ -46,6 +46,26 @@ window.onload = async function () {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+
+	const lazyElements = document.querySelectorAll(".lazy-load");
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const element = entry.target;
+          if (element.tagName === "IMG" && element.dataset.src) {
+            element.src = element.dataset.src;
+          }
+          element.classList.add("lazy-loaded");
+          observer.unobserve(element);
+        }
+      });
+    });
+
+    lazyElements.forEach(element => {
+      observer.observe(element);
+    });
+
 	let linkButtons = document.querySelectorAll('.buyBtn');
 	linkButtons.forEach((button) => {
 		let plansData = data;

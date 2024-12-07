@@ -165,7 +165,7 @@
 				<li><i class="ion-android-remove"> </i>-</li>
 				<li><i class="ion-android-remove"> </i>-</li>
 			  </ul>
-			  <div class="plan-select"><a href="">Contratar</a></div>
+			  <div class="plan-select"><a href="#" id="plan1" name="Avulsa Simples" price="249" price-type="unique" class="buyBtn">Contratar</a></div>
 			</div>
 			<div class="plan">
 			  <header>
@@ -181,7 +181,7 @@
 				<li><i class="ion-android-remove"> </i>-</li>
 				<li><i class="i-obs">*O valor pode sofrer alterações de acordo com o volume de documentos a ser analisado</i></li>
 			  </ul>
-			  <div class="plan-select"><a href="">Contratar</a></div>
+			  <div class="plan-select"><a href="#" id="plan2" name="Avulsa C/ Análise" price="339" price-type="unique" class="buyBtn">Contratar</a></div>
 			</div>
 			<div class="plan featured">
 			  <header>
@@ -198,7 +198,7 @@
 				<li><i class="i-obs">*O valor pode sofrer alterações de acordo com o volume de documentos a ser analisado</i></li>
 
 			  </ul>
-			  <div class="plan-select"><a href="">Contratar</a></div>
+			  <div class="plan-select"><a href="#" id="plan3" name="Ilimitado Mensal" price="480" price-type="monthly" class="buyBtn">Contratar</a></div>
 			</div>
 			<div class="plan">
 			  <header>
@@ -214,7 +214,7 @@
 				<li><i class="ion-android-remove"> </i>-</li>
 				<li><i class="i-obs">*O valor pode sofrer alterações de acordo com o volume de documentos a ser analisado</i></li>
 			  </ul>
-			  <div class="plan-select"><a href="">Contratar</a></div>
+			  <div class="plan-select"><a href="#" id="plan4" name="Ilimitado Anual" price="5199" price-type="annual" class="buyBtn">Contratar</a></div>
 			</div>
 		  </div>
     </section>
@@ -227,16 +227,16 @@
 			<div class="mb-3">
 				<label for="plan" class="form-label">Consulta desejada</label>
 				<select class="form-select" id="plan" required>
-					<option value="Avulsa Simples">----Selecione----</option>
+					<option value="None">----Selecione----</option>
 					<option value="Avulsa Simples">Avulsa Simples</option>
-					<option value="Avulsa C/ Analise">Avulsa C/ Análise</option>
+					<option value="Avulsa C/ Análise">Avulsa C/ Análise</option>
 					<option value="Ilimitado Mensal">Ilimitado Mensal</option>
 					<option value="Ilimitado Anual">Ilimitado Anual</option>
 				</select>
 			</div>
 			<div class="mb-3" id="uploadSection">
 				<label for="documents" class="form-label">Upload de documentos</label>
-				<input type="file" class="form-control" id="documents" disabled>
+				<input type="file" class="form-control" id="documents" disabled required multiple>
 			</div>
 			<div class="mb-3">
 				<label for="fullName" class="form-label">Nome completo</label>
@@ -260,40 +260,8 @@
 			</div>
 			<button type="submit" id="submit-btn" class="btn submit-btn" disabled>Enviar</button>
 		</form>
-
-		<script>
-		
-				document.getElementById('plan').addEventListener('change', function() {
-					var uploadField = document.getElementById('documents');
-					let submitButton = document.getElementById('submit-btn');
-					submitButton.disabled = false;
-					if (this.value === 'Avulsa C/ Analise' || this.value === 'Ilimitado Mensal' || this.value === 'Ilimitado Anual') {
-						uploadField.disabled = false; 
-					} else {
-						uploadField.disabled = true; 
-						uploadField.value = ''; 
-					}
-				});
-			
-				document.getElementById('documents').addEventListener('change', function() {
-					var maxSize = 10 * 1024 * 1024;
-					var allowedFormats = ['image/png', 'image/jpeg', 'application/pdf', 'application/msword'];
-					var file = this.files[0];
-			
-					if (file && file.size > maxSize) {
-						alert('O arquivo excede o tamanho máximo de 10MB.');
-						this.value = ''; 
-						return;
-					}
-			
-					if (file && !allowedFormats.includes(file.type)) {
-						alert('Formato inválido. Apenas arquivos PNG, JPG, PDF e DOC são permitidos.');
-						this.value = ''; 
-					}
-				});
-		</script>
 	</div>
-	
+	<script src="script.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

@@ -12124,6 +12124,18 @@ form #uploadSection {
   .right-to-left {
 	transform: translateX(20px);
   }
+  footer {
+	width: 100%;
+	border-top: 2px solid #f1c40f; /* Combina com o design do site */
+  }
+  
+  footer a:hover {
+	color: #DFC872; /* Cor de hover similar ao design */
+  }
+  
+  footer small {
+	font-size: 0.9rem;
+  }
   
   .lazy-loaded {
 	opacity: 1;

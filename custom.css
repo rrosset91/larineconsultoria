@@ -12132,10 +12132,29 @@ form #uploadSection {
   footer a:hover {
 	color: #DFC872; /* Cor de hover similar ao design */
   }
+
+  .mt-custom{
+	margin-top: 2em;
+  }
+
+  .row {
+	margin: 0 auto; 
+  }
+  
+  .col-lg-8 {
+	text-align: center; 
+  }
+  
   
   footer small {
 	font-size: 0.9rem;
+	margin-top: 2em;
   }
+
+  footer{
+	margin-top: 2em;
+  }
+
   
   .lazy-loaded {
 	opacity: 1;

@@ -84,7 +84,7 @@
   --bs-body-bg-rgb: 255, 255, 255;
   --bs-emphasis-color: #000;
   --bs-emphasis-color-rgb: 0, 0, 0;
-  --bs-secondary-color: rgba(33, 37, 41, 0.75);
+  --bs-secondary-color: rgba(219, 0, 186, 0.75);
   --bs-secondary-color-rgb: 33, 37, 41;
   --bs-secondary-bg: #e9ecef;
   --bs-secondary-bg-rgb: 233, 236, 239;
@@ -204,6 +204,11 @@ body {
   background-color: var(--bs-body-bg);
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.custom-navbar{
+	background-color: rgba(0, 1, 28, 0.75); /* Cor de fundo desejada */
+  	color: white;
 }
 
 hr {
@@ -12126,11 +12131,11 @@ form #uploadSection {
   }
   footer {
 	width: 100%;
-	border-top: 2px solid #f1c40f; /* Combina com o design do site */
+	border-top: 2px solid #f1c40f;
   }
   
   footer a:hover {
-	color: #DFC872; /* Cor de hover similar ao design */
+	color: #DFC872; 
   }
 
   .mt-custom{

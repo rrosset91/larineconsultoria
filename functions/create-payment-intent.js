@@ -18,7 +18,7 @@ export async function onRequestPost(context) {
       body: new URLSearchParams({
         amount: amount.toString(),
         currency: "eur",
-        payment_method_types: ["card"],
+        "payment_method_types[]": "card",
       }),
     });
 

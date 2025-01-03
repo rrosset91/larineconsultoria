@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "bootstrap": "^5.3.3",
-    "sass": "^1.82.0"
+    "sass": "^1.82.0",
+    "stripe": "^17.5.0"
   }
 }

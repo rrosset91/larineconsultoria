@@ -12,7 +12,7 @@ export async function onRequestPost(context) {
     const stripeResponse = await fetch("https://api.stripe.com/v1/payment_intents", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`,
+        Authorization: `Bearer sk_test_51QdDLzBmLhzPvPbKglzZmKrVcOuW7d4NgyOKngDkB0FptyY1yTC10rpgqm1lTXZ1IVJyVwCYVyV3JculRxSWSvA100Tqt65jWb`,
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({

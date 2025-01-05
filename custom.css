@@ -12185,7 +12185,16 @@ form #uploadSection {
 	align-items: center; /* Centraliza horizontalmente */
   }
   
-
+  @keyframes onAutoFillStart {
+	from {}
+	to {}
+  }
+  
+  input:-webkit-autofill {
+	animation-name: onAutoFillStart;
+	animation-duration: 0.01s;
+  }
+  
 
 
 /*# sourceMappingURL=custom.css.map */

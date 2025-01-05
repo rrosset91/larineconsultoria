@@ -179,9 +179,9 @@ submitButton.addEventListener("click", async (event) => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-		return_url: 'https://larineconsultoria.pages.dev',
+		return_url: 'https://google.com',
 	  },
-	  redirect: 'if_required',
+	  redirect: 'always',
     });
 
     if (error) {

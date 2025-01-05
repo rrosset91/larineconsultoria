@@ -1,5 +1,4 @@
 const stripe = Stripe("pk_test_51QdDLzBmLhzPvPbK22LYryolt7sNSMwzzMWzHW9RJJzlcxIlVmA3C2pjKCFjE1v4P8DJ3dad288z1gnHnHt7esxT00XGxVfmgp"); // Substitua com sua chave pública
-const clientSecret = 'sk_test_51QdDLzBmLhzPvPbKglzZmKrVcOuW7d4NgyOKngDkB0FptyY1yTC10rpgqm1lTXZ1IVJyVwCYVyV3JculRxSWSvA100Tqt65jWb';
 async function initialize() {
 	const response = await fetch("https://larineconsultoria.pages.dev/create-payment-intent", {
 	  method: "POST",
@@ -7,7 +6,7 @@ async function initialize() {
 	  body: JSON.stringify({ amount: 5000 }) // Exemplo: €50.00
 	});
 	console.log(response);
-	// const { clientSecret } = await response.json();
+	const { clientSecret } = await response.json();
 
 	const elements = stripe.elements({ clientSecret });
 	const paymentElement = elements.create("payment");

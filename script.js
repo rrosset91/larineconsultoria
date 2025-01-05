@@ -178,14 +178,20 @@ submitButton.addEventListener("click", async (event) => {
 
     const { error } = await stripe.confirmPayment({
       elements,
-      confirmParams: { return_url: "https://larineconsultoria.pages.dev/complete" },
+      confirmParams: {},
+	  redirect: 'if_required'
     });
 
     if (error) {
-      payErrorMessage.textContent = error.message;
-    } else {
-      payErrorMessage.textContent = "Pagamento processado com sucesso!";
-    }
+		const event = new CustomEvent("payment-error", { detail: error.message });
+		window.dispatchEvent(event);
+	  } else if (paymentIntent && paymentIntent.status === "succeeded") {
+		const event = new CustomEvent("payment-success", { detail: paymentIntent });
+		window.dispatchEvent(event);
+	  } else {
+		const event = new CustomEvent("payment-pending", { detail: paymentIntent });
+		window.dispatchEvent(event);
+	  }
   } catch (error) {
     payErrorMessage.textContent = "Erro ao processar o pagamento.";
   }
@@ -225,3 +231,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+
+function handlePaymentStatus(event){
+	let modalBody = document.querySelector('.modal-body');
+	let paymentForm = document.querySelector('.payment-form');
+	let payButton = document.querySelector('#pay');
+	let paymentErrorContent = `<h3>Erro ao processar o pagamento</h3><br><img src="./img/failed-payment.gif" width="50"><p>${event.detail}</p>`;
+	let paymentSuccessContent = `<h3>Pagamento processado com sucesso</h3><br><img src="./img/success-payment.gif" width="50"><p>Seu pagamento foi processado com sucesso. Em breve entraremos em contato!</p>`;
+	let paymentPendingContent = `<h3>Pagamento pendente</h3><br><img src="./img/pending-payment.gif" width="50"><p>Seu pagamento está pendente de confirmação.</p><p>Você será contactado(a) assim que o pagamento for confirmado</p>`;
+
+	paymentForm.style.display = 'none';
+	payButton.style.display = 'none';
+
+	if(event.type === 'payment-error'){
+		modalBody.innerHTML = paymentErrorContent;
+	}
+	if(event.type === 'payment-success'){
+		modalBody.innerHTML = paymentSuccessContent;
+	}
+	if(event.type === 'payment-pending'){
+		modalBody.innerHTML = paymentPendingContent;
+	}
+}
+
+window.addEventListener('payment-error', handlePaymentStatus(e));
+window.addEventListener('payment-success', handlePaymentStatus(e));
+window.addEventListener('payment-pending', handlePaymentStatus(e));

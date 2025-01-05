@@ -1,5 +1,6 @@
 const stripe = Stripe("pk_test_51QdDLzBmLhzPvPbK22LYryolt7sNSMwzzMWzHW9RJJzlcxIlVmA3C2pjKCFjE1v4P8DJ3dad288z1gnHnHt7esxT00XGxVfmgp");
-
+let validationMessage;
+let validationHolder = document.getElementById('validationMessage');
 const appearance = {
   theme: "minimal",
   variables: { colorPrimaryText: '#262626' }
@@ -71,15 +72,29 @@ formFields.forEach(field => {
 function validateForm() {
 const isValid = Array.from(formFields).every((field) => {
 	if (field.required && field.type !== "file") {
+		validationMessage = "Por favor, preencha todos os campos.";
+		validationHolder.textContent = validationMessage;
 		if (field.id === "email") {
 			const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-			return emailPattern.test(field.value);
+			validationMessage = "Por favor, insira um e-mail válido.";
+			validationHolder.textContent = validationMessage;
+		return emailPattern.test(field.value);
+		}
+		if (field.tagName === "TEXTAREA" && field.value.length < 300) {
+			validationMessage = "O texto deve ter pelo menos 300 caracteres.";
+			validationHolder.textContent = validationMessage;
+		return false;
 		}
 		return field.value.trim() !== "" && field.value.length > 5;
 	}
-	return true;
+		
+		return true;
+	
 });
-
+	if(isValid){
+		validationMessage = '';
+		validationHolder.textContent = validationMessage;
+	}
   submitButton.disabled = !isValid;
 }
 
@@ -89,10 +104,35 @@ document.getElementById('plan').addEventListener('change', function () {
 
   if (this.value === 'Avulsa C/ Análise' || this.value === 'Ilimitado Mensal' || this.value === 'Ilimitado Anual') {
     uploadField.disabled = false;
+	validationMessage = "Por favor, envie os documentos necessários.";
+	validationHolder.textContent = validationMessage;
+	submitButton.disabled = true;
   } else {
     uploadField.disabled = true;
+	validationHolder.textContent = '';
+	submitButton.disabled = false;
   }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+	const submitButton = document.getElementById("submit-btn");
+  
+	// Evento disparado quando o Turnstile é validado
+	window.addEventListener("turnstile-response", (event) => {
+	  const token = event.detail.token; // Token retornado pelo Turnstile
+  
+	  if (token) {
+		// Ativar o botão se a validação for bem-sucedida
+		submitButton.disabled = false;
+	  }
+	});
+  
+	// Desativar o botão novamente caso o Turnstile seja invalidado
+	window.addEventListener("turnstile-error", () => {
+	  submitButton.disabled = true;
+	});
+  });
+  
 
 // Validação do arquivo enviado
 document.getElementById('documents').addEventListener('change', function () {

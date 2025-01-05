@@ -278,6 +278,10 @@
 			  <label for="message" class="form-label">Resumo da situação</label>
 			  <textarea class="form-control" id="message" rows="5" maxlength="10000" required></textarea>
 			</div>
+			<p id="validationMessage" class="text-danger"></p>
+			<div class="mb-3 mt-4">
+				<div class="cf-turnstile" data-sitekey="0x4AAAAAAA4oB3KpfQXombi3"></div>
+			  </div>
 			<div class="text-center" style="margin-top: 3em">
 			  <button type="button" id="submit-btn" class="btn submit-btn" data-bs-toggle="modal" data-bs-target="#paymentModal" disabled>Enviar</button>
 			</div>
@@ -381,6 +385,6 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-
+	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </body>
 </html>

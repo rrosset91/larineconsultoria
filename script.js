@@ -49,7 +49,7 @@ function validateForm() {
   }
 
   // Ativa o botão somente se o Turnstile também foi validado
-  submitButton.disabled = !isValid;
+  submitButton.disabled = !isValid || submitButton.dataset.turnstileValid !== "true";
 }
 
 // Exibição condicional do upload de documentos com base na seleção do plano
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Evento disparado quando o Turnstile é validado
   window.addEventListener("turnstile-response", (event) => {
     const token = event.detail.token; // Token retornado pelo Turnstile
-
+	
     if (token) {
       submitButton.dataset.turnstileValid = "true";
       validateForm(); // Revalida o formulário

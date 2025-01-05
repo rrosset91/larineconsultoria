@@ -255,6 +255,6 @@ function handlePaymentStatus(event){
 	}
 }
 
-window.addEventListener('payment-error', handlePaymentStatus(e));
-window.addEventListener('payment-success', handlePaymentStatus(e));
-window.addEventListener('payment-pending', handlePaymentStatus(e));
+window.addEventListener('payment-error', handlePaymentStatus);
+window.addEventListener('payment-success', handlePaymentStatus);
+window.addEventListener('payment-pending', handlePaymentStatus);

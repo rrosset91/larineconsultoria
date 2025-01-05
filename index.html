@@ -286,7 +286,7 @@
 					data-error-callback="onTurnstileError"></div>
 			  </div>
 			<div class="text-center" style="margin-top: 3em">
-			  <button type="button" id="submit-btn" class="btn submit-btn" data-bs-toggle="modal" data-bs-target="#paymentModal" disabled>Enviar</button>
+			  <button type="button" id="submit-btn" class="btn submit-btn" data-bs-toggle="modal" data-bs-target="#paymentModal" disabled >Enviar</button>
 			</div>
 		  </form>
 		<!-- Modal -->
@@ -295,9 +295,13 @@
 	  <div class="modal-content">
 		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		<div class="modal-body">
+			
 			<form id="payment-form">
 				<div id="payment-element" class="d-flex justify-content-center"></div>
-				<button id="submit" class="btn btn-primary mt-4">Pagar</button>
+				<div class="spinner-grow" id="spinner" role="status">
+					<span class="sr-only">Loading...</span>
+				  </div>
+				<button id="pay" class="btn btn-primary mt-4">Pagar</button>
 				<div id="error-message" class="text-danger mt-3"></div>
 			  </form>
 		</div>

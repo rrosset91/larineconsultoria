@@ -4,6 +4,9 @@ let validationMessage;
 let validationHolder = document.getElementById("validationMessage");
 let isTurnstileTokenValid = false;
 let isValid = false;
+let spinner = document.getElementById("spinner");
+let payButton = document.getElementById("pay");
+let payErrorMessage = document.getElementById("error-message");
 
 const appearance = {
   theme: "minimal",
@@ -139,7 +142,9 @@ document.getElementById("documents").addEventListener("change", function () {
 // Inicializar PaymentIntent ao clicar no botão "Enviar"
 submitButton.addEventListener("click", async (event) => {
   event.preventDefault();
-
+	spinner.style.display = "block";
+	payButton.style.display = "none";
+	payErrorMessage.style.display = "none";
   try {
     // Criar PaymentIntent no backend
     const response = await fetch("https://larineconsultoria.pages.dev/create-payment-intent", {
@@ -149,8 +154,12 @@ submitButton.addEventListener("click", async (event) => {
     });
 
     if (!response.ok) {
-      throw new Error("Erro ao criar Payment Intent");
+		payErrorMessage.style.display = "none";
+		throw new Error("Erro ao criar Payment Intent");
     }
+	spinner.style.display = "none";
+	payButton.style.display = "block";
+	payErrorMessage.style.display = "block";
 
     const { clientSecret } = await response.json();
 

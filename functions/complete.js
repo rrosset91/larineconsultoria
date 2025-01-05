@@ -1,5 +1,5 @@
 export default {
-	async fetch(request) {
+	async onRequestGet(request) {
 	  const url = new URL(request.url);
   
 	  if (url.pathname === '/complete') {

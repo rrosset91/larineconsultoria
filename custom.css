@@ -12166,5 +12166,20 @@ form #uploadSection {
 	transform: translateX(0);
   }
 
+  .modal-content {
+	background-color: #f8f9fa; /* Cor cinza clara */
+  }
+  
+  .modal-backdrop {
+	background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro com opacidade */
+  }
+  
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+	color: #30313d; /* Texto em cinza escuro */
+  }
+  
+
 
 /*# sourceMappingURL=custom.css.map */

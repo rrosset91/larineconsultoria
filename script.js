@@ -34,7 +34,7 @@ const appearance = {
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: "https://seu-site.pages.dev/sucesso", // URL para redirecionamento após pagamento
+          return_url: "/complete.html",
         },
       });
 

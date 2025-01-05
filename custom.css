@@ -12179,7 +12179,16 @@ form #uploadSection {
   .modal-footer {
 	color: #30313d; /* Texto em cinza escuro */
   }
+  #payment-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center; /* Centraliza horizontalmente */
+  }
   
+  #submit {
+	margin-top: 20px; /* Espaçamento acima do botão */
+	align-self: center; /* Garante que o botão fique centralizado */
+  }  
 
 
 /*# sourceMappingURL=custom.css.map */

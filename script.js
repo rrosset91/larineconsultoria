@@ -1,12 +1,8 @@
 const stripe = Stripe("pk_test_51QdDLzBmLhzPvPbK22LYryolt7sNSMwzzMWzHW9RJJzlcxIlVmA3C2pjKCFjE1v4P8DJ3dad288z1gnHnHt7esxT00XGxVfmgp");
 
 const appearance = {
-  theme: "flat",
-  variables: {
-    colorPrimary: "#0570de",
-    colorBackground: "#f8f9fa",
-    colorText: "#30313d",
-  },
+  theme: "minimal",
+  variables: { colorPrimaryText: '#262626' }
 };
 
 // Inicialização do Stripe Elements e do PaymentIntent
@@ -73,12 +69,16 @@ formFields.forEach(field => {
 });
 
 function validateForm() {
-  const isValid = Array.from(formFields).every((field) => {
-    if (field.required && field.type !== "file") {
-      return field.value.trim() !== "";
-    }
-    return true;
-  });
+const isValid = Array.from(formFields).every((field) => {
+	if (field.required && field.type !== "file") {
+		if (field.id === "email") {
+			const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			return emailPattern.test(field.value);
+		}
+		return field.value.trim() !== "" && field.value.length > 5;
+	}
+	return true;
+});
 
   submitButton.disabled = !isValid;
 }

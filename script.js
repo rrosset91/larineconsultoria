@@ -1,35 +1,35 @@
 const stripe = Stripe("pk_test_51QdDLzBmLhzPvPbK22LYryolt7sNSMwzzMWzHW9RJJzlcxIlVmA3C2pjKCFjE1v4P8DJ3dad288z1gnHnHt7esxT00XGxVfmgp"); // Substitua com sua chave pública
+const clientSecret = 'sk_test_51QdDLzBmLhzPvPbKglzZmKrVcOuW7d4NgyOKngDkB0FptyY1yTC10rpgqm1lTXZ1IVJyVwCYVyV3JculRxSWSvA100Tqt65jWb';
+async function initialize() {
+	const response = await fetch("https://larineconsultoria.pages.dev/create-payment-intent", {
+	  method: "POST",
+	  headers: { "Content-Type": "application/json" },
+	  body: JSON.stringify({ amount: 5000 }) // Exemplo: €50.00
+	});
+	console.log(response);
+	// const { clientSecret } = await response.json();
 
-    async function initialize() {
-      const response = await fetch("/create-payment-intent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: 5000 }) // Exemplo: 50,00 EUR
-      });
-      const { clientSecret } = await response.json();
+	const elements = stripe.elements({ clientSecret });
+	const paymentElement = elements.create("payment");
+	paymentElement.mount("#payment-element");
 
-      const elements = stripe.elements({ clientSecret });
-      const paymentElement = elements.create("payment");
-      paymentElement.mount("#payment-element");
+	const form = document.getElementById("payment-form");
+	form.addEventListener("submit", async (event) => {
+	  event.preventDefault();
+	  const { error } = await stripe.confirmPayment({
+		elements,
+		confirmParams: {
+		  return_url: "https://seu-site.pages.dev/sucesso" // URL de redirecionamento
+		}
+	  });
 
-      const form = document.getElementById("payment-form");
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const { error } = await stripe.confirmPayment({
-          elements,
-          confirmParams: {
-            return_url: "https://seu-site.pages.dev/sucesso" // URL para redirecionar após sucesso
-          }
-        });
+	  if (error) {
+		document.getElementById("error-message").textContent = error.message;
+	  }
+	});
+  }
 
-        if (error) {
-          document.getElementById("error-message").textContent = error.message;
-        }
-      });
-    }
-
-    initialize();
-
+  initialize();
 let data;
 document.getElementById('plan').addEventListener('change', function() {
 	var uploadField = document.getElementById('documents');
@@ -67,6 +67,7 @@ window.onload = async function () {
         if (!response.ok) {
             throw new Error(`Erro ao carregar o arquivo: ${response.status}`);
         }
+		console.log(response);
         const jsonData = await response.json();
         console.log('Conteúdo do JSON:', jsonData.plans);
 		data = jsonData.plans;

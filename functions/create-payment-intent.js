@@ -3,9 +3,7 @@ export async function onRequestPost(context) {
   
 	try {
 	  const stripe = require("stripe")(env.STRIPE_SECRET_KEY);
-  
-	  // O body da requisição deve conter o valor (amount)
-	  const { amount, currency = "eur" } = await request.json();
+	  const { amount } = await request.json();
   
 	  if (!amount || amount <= 0) {
 		return new Response(
@@ -14,11 +12,10 @@ export async function onRequestPost(context) {
 		);
 	  }
   
-	  // Criar Payment Intent
 	  const paymentIntent = await stripe.paymentIntents.create({
 		amount, // Valor em centavos
-		currency: "brl", // Moeda padrão
-		automatic_payment_methods: { enabled: true }, // Ativar métodos automáticos
+		currency: "eur",
+		automatic_payment_methods: { enabled: true },
 	  });
   
 	  return new Response(
@@ -26,7 +23,6 @@ export async function onRequestPost(context) {
 		{ status: 200 }
 	  );
 	} catch (error) {
-	  console.error("Erro ao criar Payment Intent:", error.message);
 	  return new Response(
 		JSON.stringify({ error: error.message }),
 		{ status: 500 }

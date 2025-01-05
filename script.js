@@ -1,37 +1,58 @@
 const stripe = Stripe("pk_test_51QdDLzBmLhzPvPbK22LYryolt7sNSMwzzMWzHW9RJJzlcxIlVmA3C2pjKCFjE1v4P8DJ3dad288z1gnHnHt7esxT00XGxVfmgp");
 
+const appearance = {
+  theme: "flat",
+  variables: {
+    colorPrimary: "#0570de",
+    colorBackground: "#f8f9fa",
+    colorText: "#30313d",
+  },
+};
+
 // Inicialização do Stripe Elements e do PaymentIntent
 (async function initialize() {
-  const response = await fetch("https://larineconsultoria.pages.dev/create-payment-intent", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ amount: 5000 }) // Exemplo: €50.00
-  });
-
-  console.log(response);
-  const { clientSecret } = await response.json();
-
-  const elements = stripe.elements({ clientSecret });
-  const paymentElement = elements.create("payment");
-  paymentElement.mount("#payment-element");
-
-  const form = document.getElementById("payment-form");
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: "https://seu-site.pages.dev/sucesso" // URL de redirecionamento
-      }
+  try {
+    // Criar PaymentIntent no backend
+    const response = await fetch("https://larineconsultoria.pages.dev/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: 5000, currency: "brl" }), // Moeda BRL para suportar boleto
     });
 
-    if (error) {
-      document.getElementById("error-message").textContent = error.message;
+    if (!response.ok) {
+      throw new Error("Erro ao criar Payment Intent");
     }
-  });
-})();
 
-let data;
+    const { clientSecret } = await response.json();
+
+    // Inicializar o Stripe Elements
+    const elements = stripe.elements({ clientSecret, appearance });
+    const paymentElement = elements.create("payment");
+    paymentElement.mount("#payment-element");
+
+    // Formulário de pagamento - Submit
+    const form = document.getElementById("payment-form");
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: "https://seu-site.pages.dev/sucesso", // URL para redirecionamento após pagamento
+        },
+      });
+
+      if (error) {
+        // Exibir mensagem de erro ao usuário
+        document.getElementById("error-message").textContent = error.message;
+      } else {
+        document.getElementById("error-message").textContent = "Pagamento processado com sucesso!";
+      }
+    });
+  } catch (error) {
+    console.error("Erro ao inicializar Stripe:", error.message);
+  }
+})();
 
 // Máscara e validação do telefone
 const phoneInput = document.getElementById('phone');
@@ -89,11 +110,6 @@ document.getElementById('documents').addEventListener('change', function () {
     alert('Formato inválido. Apenas arquivos PNG, JPG, PDF e DOC são permitidos.');
     this.value = '';
   }
-});
-
-// Rolagem suave ao carregar a página
-window.addEventListener("load", function () {
-  window.scrollTo(0, 0);
 });
 
 // Lazy loading para imagens e elementos

@@ -280,7 +280,10 @@
 			</div>
 			<p id="validationMessage" class="text-danger"></p>
 			<div class="mb-3 mt-4">
-				<div class="cf-turnstile" data-sitekey="0x4AAAAAAA4oB3KpfQXombi3"></div>
+				<div class="cf-turnstile" 
+					data-sitekey="0x4AAAAAAA4oB3KpfQXombi3" 
+					data-callback="onTurnstileSuccess" 
+					data-error-callback="onTurnstileError"></div>
 			  </div>
 			<div class="text-center" style="margin-top: 3em">
 			  <button type="button" id="submit-btn" class="btn submit-btn" data-bs-toggle="modal" data-bs-target="#paymentModal" disabled>Enviar</button>
@@ -378,13 +381,12 @@
 		</div>
 	  </footer>
 	<script src="https://js.stripe.com/v3/"></script>
-
+	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 	<script src="script.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </body>
 </html>

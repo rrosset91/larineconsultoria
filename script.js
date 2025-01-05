@@ -2,6 +2,9 @@ const stripe = Stripe("pk_test_51QdDLzBmLhzPvPbK22LYryolt7sNSMwzzMWzHW9RJJzlcxIl
 
 let validationMessage;
 let validationHolder = document.getElementById("validationMessage");
+let isTurnstileTokenValid = false;
+let isValid = false;
+
 const appearance = {
   theme: "minimal",
   variables: { colorPrimaryText: "#262626" },
@@ -27,7 +30,7 @@ formFields.forEach((field) => {
 });
 
 function validateForm() {
-  const isValid = Array.from(formFields).every((field) => {
+  isValid = Array.from(formFields).every((field) => {
     if (field.required && field.type !== "file") {
       if (field.id === "email") {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -49,7 +52,7 @@ function validateForm() {
   }
 
   // Ativa o botão somente se o Turnstile também foi validado
-  submitButton.disabled = !isValid || submitButton.dataset.turnstileValid !== "true";
+  submitButton.disabled = !isValid || submitButton.dataset.turnstileToken !== "true" || !isTurnstileTokenValid;
 }
 
 // Exibição condicional do upload de documentos com base na seleção do plano
@@ -71,21 +74,49 @@ document.getElementById("plan").addEventListener("change", function () {
 // Turnstile validação
 document.addEventListener("DOMContentLoaded", () => {
   // Evento disparado quando o Turnstile é validado
-  window.addEventListener("turnstile-response", (event) => {
+  window.addEventListener("turnstile-response", async (event) => {
     const token = event.detail.token; // Token retornado pelo Turnstile
-	
     if (token) {
-      submitButton.dataset.turnstileValid = "true";
+      submitButton.dataset.turnstileToken = "true";
       validateForm(); // Revalida o formulário
     }
   });
 
   // Desativar o botão caso o Turnstile seja invalidado
   window.addEventListener("turnstile-error", () => {
-    submitButton.dataset.turnstileValid = "false";
+    submitButton.dataset.turnstileToken = "false";
     submitButton.disabled = true;
   });
 });
+
+async function validateTurnstileToken(token) {
+	const response = await fetch("https://larineconsultoria.pages.dev/check-turnstile", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ turnstileToken: token }),
+	});
+
+	if (response.ok) {
+		console.log('@@@Turnstile is valid@@@');
+		return true;
+	} else {
+		console.log('@@@Turnstile is notvalid@@@');
+		return false;
+	}
+}
+
+async function onTurnstileSuccess(token) {
+	console.log("Turnstile validado com sucesso. Token:", token);
+	let isValidToken = await validateTurnstileToken(token);
+	submitButton.dataset.turnstileToken = "true";
+	isTurnstileTokenValid = true;
+  }
+  
+  function onTurnstileError() {
+	submitButton.dataset.turnstileToken = "false";
+	isTurnstileTokenValid = false;
+  }
+  
 
 // Validação do arquivo enviado
 document.getElementById("documents").addEventListener("change", function () {

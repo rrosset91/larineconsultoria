@@ -175,14 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let linkButtons = document.querySelectorAll('.buyBtn');
   linkButtons.forEach((button) => {
-    let plansData = data;
-    let planIndex = Array.from(linkButtons).indexOf(button);
-    if (plansData && plansData[planIndex]) {
-      button.setAttribute('id', plansData[planIndex].id);
-      button.setAttribute('price', plansData[planIndex].price);
-      button.setAttribute('price-type', plansData[planIndex].billingType);
-      button.setAttribute('name', plansData[planIndex].name);
-    }
+
     button.addEventListener('click', (e) => {
       e.preventDefault();
       const element = e.target;

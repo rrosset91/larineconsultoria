@@ -243,11 +243,62 @@
 		<h2 class="fw-bold">Consultar</h2>
 	</div>
 	<div class="container col-8 ">
-		<form id="payment-form">
-			<div id="payment-element"></div>
-			<button id="submit">Pagar</button>
-			<div id="error-message"></div>
+		<form id="customForm">
+			<div class="mb-3">
+			  <label for="plan" class="form-label">Consulta desejada</label>
+			  <select class="form-select" id="plan" required>
+				<option value="None">----Selecione----</option>
+				<option value="Avulsa Simples">Avulsa Simples</option>
+				<option value="Avulsa C/ Análise">Avulsa C/ Análise</option>
+				<option value="Ilimitado Mensal">Ilimitado Mensal</option>
+				<option value="Ilimitado Anual">Ilimitado Anual</option>
+			  </select>
+			</div>
+			<div class="mb-3" id="uploadSection">
+			  <label for="documents" class="form-label">Upload de documentos</label>
+			  <input type="file" class="form-control" id="documents" disabled required multiple>
+			</div>
+			<div class="mb-3">
+			  <label for="fullName" class="form-label">Nome completo</label>
+			  <input type="text" class="form-control" id="fullName" required>
+			</div>
+			<div class="mb-3">
+			  <label for="city" class="form-label">Cidade</label>
+			  <input type="text" class="form-control" id="city" required>
+			</div>
+			<div class="mb-3">
+			  <label for="phone" class="form-label">Telefone</label>
+			  <input type="tel" class="form-control" id="phone" required>
+			</div>
+			<div class="mb-3">
+			  <label for="email" class="form-label">Email</label>
+			  <input type="email" class="form-control" id="email" required>
+			</div>
+			<div class="mb-3">
+			  <label for="message" class="form-label">Resumo da situação</label>
+			  <textarea class="form-control" id="message" rows="5" maxlength="10000" required></textarea>
+			</div>
+			<div class="text-center" style="margin-top: 3em">
+			  <button type="button" id="submit-btn" class="btn submit-btn" data-bs-toggle="modal" data-bs-target="#paymentModal" disabled>Enviar</button>
+			</div>
 		  </form>
+		<!-- Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+			<form id="payment-form">
+				<div id="payment-element"></div>
+				<button id="submit">Pagar</button>
+				<div id="error-message"></div>
+			  </form>
+		</div>
+	  </div>
+	</div>
+  </div>
 	</div>
 	<div class="col-8 container text-center" >
 		<img src="./img/hr.png" class="img-fluid separator" alt="Separator" id="list-item-4"/>

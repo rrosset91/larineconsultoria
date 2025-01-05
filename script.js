@@ -185,12 +185,15 @@ submitButton.addEventListener("click", async (event) => {
     });
 
     if (error) {
+		console.log('@@@@@@@@@');
 		const event = new CustomEvent("payment-error", { detail: error.message });
 		window.dispatchEvent(event);
 	  } else if (paymentIntent && paymentIntent.status === "succeeded") {
+		console.log('##########');
 		const event = new CustomEvent("payment-success", { detail: paymentIntent });
 		window.dispatchEvent(event);
 	  } else {
+		console.log('&&&&&&&&&');
 		const event = new CustomEvent("payment-pending", { detail: paymentIntent });
 		window.dispatchEvent(event);
 	  }

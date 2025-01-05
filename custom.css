@@ -12186,8 +12186,10 @@ form #uploadSection {
   }
   
   #submit {
-	margin-top: 20px; /* Espaçamento acima do botão */
+	margin-top: 30px; /* Espaçamento acima do botão */
 	align-self: center; /* Garante que o botão fique centralizado */
+	background-color: #0d6efd; /* Azul padrão do Bootstrap */
+	color: white; /* Texto branco */
   }  
 
 

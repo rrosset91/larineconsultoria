@@ -178,8 +178,10 @@ submitButton.addEventListener("click", async (event) => {
 
     const { error } = await stripe.confirmPayment({
       elements,
-      confirmParams: {},
-	  redirect: 'if_required'
+      confirmParams: {
+		return_url: 'https://larineconsultoria.pages.dev',
+	  },
+	  redirect: 'if_required',
     });
 
     if (error) {
@@ -234,6 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 function handlePaymentStatus(event){
+	event.preventDefault();
 	let modalBody = document.querySelector('.modal-body');
 	let paymentForm = document.querySelector('.payment-form');
 	let payButton = document.querySelector('#pay');

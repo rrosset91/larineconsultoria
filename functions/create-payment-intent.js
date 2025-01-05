@@ -13,8 +13,8 @@ export async function onRequestPost(context) {
 	  }
   
 	  const paymentIntent = await stripe.paymentIntents.create({
-		amount, // Valor em centavos
-		currency: "eur",
+		amount, 
+		currency: "brl",
 		automatic_payment_methods: { enabled: true },
 	  });
   

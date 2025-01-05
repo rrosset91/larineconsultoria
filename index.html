@@ -279,12 +279,8 @@
 			  <textarea class="form-control" id="message" rows="5" maxlength="10000" required></textarea>
 			</div>
 			<p id="validationMessage" class="text-danger"></p>
-			<div class="mb-3 mt-4">
-				<div class="cf-turnstile" 
-					data-sitekey="0x4AAAAAAA4oB3KpfQXombi3" 
-					data-callback="onTurnstileSuccess" 
-					data-error-callback="onTurnstileError"></div>
-			  </div>
+			<div id="captcha-holder" class="mb-3 mt-4">
+			</div>
 			<div class="text-center" style="margin-top: 3em">
 			  <button type="button" id="submit-btn" class="btn submit-btn" data-bs-toggle="modal" data-bs-target="#paymentModal" disabled >Enviar</button>
 			</div>

@@ -8,6 +8,9 @@ let spinner = document.getElementById("spinner");
 let payButton = document.getElementById("pay");
 let payErrorMessage = document.getElementById("error-message");
 
+const submitButton = document.getElementById("submit-btn");
+const formFields = document.querySelectorAll("#customForm input, #customForm textarea, #customForm select");
+
 const appearance = {
   theme: "minimal",
   variables: { colorPrimaryText: "#262626" },
@@ -24,9 +27,6 @@ phoneInput.addEventListener("input", function () {
   phoneInput.value = formattedValue;
 });
 
-// Atualização dinâmica do botão "Enviar" e validação do formulário
-const submitButton = document.getElementById("submit-btn");
-const formFields = document.querySelectorAll("#customForm input, #customForm textarea, #customForm select");
 
 formFields.forEach((field) => {
   field.addEventListener("input", validateForm);
@@ -52,10 +52,8 @@ function validateForm() {
   if (isValid) {
     validationMessage = "";
     validationHolder.textContent = validationMessage;
+	initializeTurnstile();
   }
-
-  // Ativa o botão somente se o Turnstile também foi validado
-  submitButton.disabled = !isValid || submitButton.dataset.turnstileToken !== "true" || !isTurnstileTokenValid;
 }
 
 // Exibição condicional do upload de documentos com base na seleção do plano
@@ -92,6 +90,30 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+function initializeTurnstile(){
+	console.log('@@@Initializing Turnstile@@@');
+	// verifica se o elemento com id captcha-holder existe
+const captchaHolder = document.getElementById("captcha-holder");
+
+if (captchaHolder) {
+  // injeta o código HTML dentro da div
+  captchaHolder.innerHTML = `
+    <div class="cf-turnstile" 
+         data-sitekey="0x4AAAAAAA4oB3KpfQXombi3" 
+         data-callback="onTurnstileSuccess" 
+         data-error-callback="onTurnstileError"></div>
+  `;
+
+  // força a inicialização do Turnstile caso o script já esteja carregado
+  if (typeof turnstile !== "undefined") {
+    turnstile.render(".cf-turnstile");
+  }
+} else {
+  console.error("Elemento com id 'captcha-holder' não encontrado.");
+}
+
+}
+
 async function validateTurnstileToken(token) {
 	const response = await fetch("https://larineconsultoria.pages.dev/check-turnstile", {
 		method: "POST",
@@ -101,6 +123,7 @@ async function validateTurnstileToken(token) {
 
 	if (response.ok) {
 		console.log('@@@Turnstile is valid@@@');
+		submitButton.disabled = false;
 		return true;
 	} else {
 		console.log('@@@Turnstile is notvalid@@@');
@@ -109,7 +132,6 @@ async function validateTurnstileToken(token) {
 }
 
 async function onTurnstileSuccess(token) {
-	console.log("Turnstile validado com sucesso. Token:", token);
 	let isValidToken = await validateTurnstileToken(token);
 	submitButton.dataset.turnstileToken = "true";
 	isTurnstileTokenValid = true;

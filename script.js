@@ -1,3 +1,34 @@
+const stripe = Stripe("pk_test_51QdDLzBmLhzPvPbK22LYryolt7sNSMwzzMWzHW9RJJzlcxIlVmA3C2pjKCFjE1v4P8DJ3dad288z1gnHnHt7esxT00XGxVfmgp"); // Substitua com sua chave pública
+
+    async function initialize() {
+      const response = await fetch("/create-payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: 5000 }) // Exemplo: 50,00 EUR
+      });
+      const { clientSecret } = await response.json();
+
+      const elements = stripe.elements({ clientSecret });
+      const paymentElement = elements.create("payment");
+      paymentElement.mount("#payment-element");
+
+      const form = document.getElementById("payment-form");
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const { error } = await stripe.confirmPayment({
+          elements,
+          confirmParams: {
+            return_url: "https://seu-site.pages.dev/sucesso" // URL para redirecionar após sucesso
+          }
+        });
+
+        if (error) {
+          document.getElementById("error-message").textContent = error.message;
+        }
+      });
+    }
+
+    initialize();
 
 let data;
 document.getElementById('plan').addEventListener('change', function() {

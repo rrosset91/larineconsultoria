@@ -278,6 +278,11 @@
 				<label for="message" class="form-label">Resumo da situação</label>
 				<textarea class="form-control" id="message" rows="5" maxlength="10000" required></textarea>
 			</div>
+			<form id="payment-form">
+				<div id="payment-element"><!-- Stripe Payment Element será montado aqui --></div>
+				<button id="submit">Pagar</button>
+				<div id="error-message"></div>
+			  </form>
 			<div class="text-center" style="margin-top: 3em">
 				<button type="submit" id="submit-btn" class="btn submit-btn" disabled>Enviar</button>
 			</div>
@@ -358,11 +363,14 @@
 		  </div>
 		</div>
 	  </footer>
+	<script src="https://js.stripe.com/v3/"></script>
+
 	<script src="script.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+
   </body>
 </html>

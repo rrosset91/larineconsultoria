@@ -1,5 +1,5 @@
 export async function onRequestPost(context) {
-	const { request } = context;
+	const { env , request } = context;
 	const body = await request.json();
 	const token = body.turnstileToken;
   
@@ -7,7 +7,7 @@ export async function onRequestPost(context) {
 	  method: "POST",
 	  headers: { "Content-Type": "application/json" },
 	  body: JSON.stringify({
-		secret: "0x4AAAAAAA4oB5jRR9gAVTs2p50_SWvfeds",
+		secret: env.TURNSTILE_SECRET_KEY,
 		response: token,
 	  }),
 	});

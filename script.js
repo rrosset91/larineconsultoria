@@ -151,56 +151,129 @@ document.getElementById("documents").addEventListener("change", function () {
     this.value = "";
   }
 });
+submitButton.addEventListener("click", (event) => {
+	event.preventDefault();
+  
+	// Validação do formulário
+	if (!isValid) {
+	  validationMessage = "Por favor, preencha o formulário corretamente.";
+	  validationHolder.textContent = validationMessage;
+	  return;
+	}
+  
+	// Abrir o modal de pagamento
+	const paymentModal = document.getElementById("payment-modal"); // Assumindo que você tem um modal
+	paymentModal.style.display = "block"; // Mostrar o modal
+  });
 
-submitButton.addEventListener("click", async (event) => {
-  event.preventDefault();
-  spinner.style.display = "block";
-  payButton.style.display = "none";
-  payErrorMessage.style.display = "none";
-  try {
-    const response = await fetch("/create-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: 5000, currency: "brl" }),
-    });
-
-    if (!response.ok) {
-      payErrorMessage.style.display = "block";
-      throw new Error("Erro ao criar Payment Intent");
-    }
-    spinner.style.display = "none";
-    payButton.style.display = "block";
-
-    const { clientSecret } = await response.json();
-    const elements = stripe.elements({ clientSecret, appearance });
-    const paymentElement = elements.create("payment");
-    paymentElement.mount("#payment-element");
-
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-		return_url: 'https://google.com',
-	  },
-	  redirect: 'always',
-    });
-
-    if (error) {
-		console.log('@@@@@@@@@');
+  payButton.addEventListener("click", async (event) => {
+	event.preventDefault();
+  
+	// Exibir spinner e esconder o botão de pagamento
+	spinner.style.display = "block";
+	payButton.style.display = "none";
+	payErrorMessage.style.display = "none";
+  
+	try {
+	  // Criar Payment Intent no servidor
+	  const response = await fetch("/create-payment-intent", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ amount: 5000, currency: "brl" }),
+	  });
+  
+	  if (!response.ok) {
+		throw new Error("Erro ao criar Payment Intent");
+	  }
+  
+	  // Obter clientSecret do servidor
+	  const { clientSecret } = await response.json();
+  
+	  // Configurar elementos do Stripe
+	  const elements = stripe.elements({ clientSecret, appearance });
+	  const paymentElement = elements.create("payment");
+	  paymentElement.mount("#payment-element");
+  
+	  // Confirmar o pagamento
+	  const { error, paymentIntent } = await stripe.confirmPayment({
+		elements,
+		confirmParams: {
+		  return_url: "https://larineconsultoria.pages.dev",
+		},
+		redirect: "if_required",
+	  });
+  
+	  // Lidar com os resultados
+	  if (error) {
 		const event = new CustomEvent("payment-error", { detail: error.message });
 		window.dispatchEvent(event);
 	  } else if (paymentIntent && paymentIntent.status === "succeeded") {
-		console.log('##########');
 		const event = new CustomEvent("payment-success", { detail: paymentIntent });
 		window.dispatchEvent(event);
 	  } else {
-		console.log('&&&&&&&&&');
 		const event = new CustomEvent("payment-pending", { detail: paymentIntent });
 		window.dispatchEvent(event);
 	  }
-  } catch (error) {
-    payErrorMessage.textContent = "Erro ao processar o pagamento.";
-  }
-});
+	} catch (error) {
+	  // Exibir mensagem de erro
+	  payErrorMessage.textContent = "Erro ao processar o pagamento.";
+	  payErrorMessage.style.display = "block";
+	} finally {
+	  spinner.style.display = "none";
+	  payButton.style.display = "block";
+	}
+  });
+  
+
+// submitButton.addEventListener("click", async (event) => {
+//   event.preventDefault();
+//   spinner.style.display = "block";
+//   payButton.style.display = "none";
+//   payErrorMessage.style.display = "none";
+//   try {
+//     const response = await fetch("/create-payment-intent", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ amount: 5000, currency: "brl" }),
+//     });
+
+//     if (!response.ok) {
+//       payErrorMessage.style.display = "block";
+//       throw new Error("Erro ao criar Payment Intent");
+//     }
+//     spinner.style.display = "none";
+//     payButton.style.display = "block";
+
+//     const { clientSecret } = await response.json();
+//     const elements = stripe.elements({ clientSecret, appearance });
+//     const paymentElement = elements.create("payment");
+//     paymentElement.mount("#payment-element");
+
+//     const { error } = await stripe.confirmPayment({
+//       elements,
+//       confirmParams: {
+// 		return_url: 'https://google.com',
+// 	  },
+// 	  redirect: 'always',
+//     });
+
+//     if (error) {
+// 		console.log('@@@@@@@@@');
+// 		const event = new CustomEvent("payment-error", { detail: error.message });
+// 		window.dispatchEvent(event);
+// 	  } else if (paymentIntent && paymentIntent.status === "succeeded") {
+// 		console.log('##########');
+// 		const event = new CustomEvent("payment-success", { detail: paymentIntent });
+// 		window.dispatchEvent(event);
+// 	  } else {
+// 		console.log('&&&&&&&&&');
+// 		const event = new CustomEvent("payment-pending", { detail: paymentIntent });
+// 		window.dispatchEvent(event);
+// 	  }
+//   } catch (error) {
+//     payErrorMessage.textContent = "Erro ao processar o pagamento.";
+//   }
+// });
 
 document.addEventListener("DOMContentLoaded", () => {
   const lazyElements = document.querySelectorAll(".lazy-load");

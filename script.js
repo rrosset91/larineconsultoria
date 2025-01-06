@@ -161,9 +161,8 @@ submitButton.addEventListener("click", (event) => {
 	  return;
 	}
   
-	// Abrir o modal de pagamento
-	const paymentModal = document.getElementById("payment-modal"); // Assumindo que você tem um modal
-	paymentModal.style.display = "block"; // Mostrar o modal
+	const paymentModal = document.getElementById("paymentModal"); 
+	paymentModal.style.display = "block"; 
   });
 
   payButton.addEventListener("click", async (event) => {

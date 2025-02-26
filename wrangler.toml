@@ -1,0 +1,6 @@
+name="larineconsultoria"
+pages_build_output_dir = "./"
+[[d1_databases]]
+binding="DB"
+database_name="larinedb"
+database_id="090877f6-9975-486f-9cd2-2a461c47834c"

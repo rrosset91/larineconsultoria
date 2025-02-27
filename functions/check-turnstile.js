@@ -1,7 +1,7 @@
 export async function onRequestPost(context) {
 	const { env , request } = context;
 	const body = await request.json();
-	const token = body.turnstileToken;
+	const token = body.token;
   
 	const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
 	  method: "POST",

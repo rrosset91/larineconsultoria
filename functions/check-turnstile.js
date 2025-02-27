@@ -13,7 +13,7 @@ export async function onRequestPost(context) {
 	});
   
 	const result = await response.json();
-  
+	console.log('@@@@Result is',result);
 	if (!result.success) {
 	  return new Response("Turnstile falhou", { status: 403 });
 	}

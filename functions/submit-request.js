@@ -23,15 +23,22 @@ export const onRequestPost = async ({ request, env }) => {
   
 	// Construir o corpo do email
 	const emailText = `
-  Nova consulta recebida:
+	<html>
+	  <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; color: #333; padding: 20px;">
+		<div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+		  <h2 style="color: #5c5c5c;">Nova consulta recebida:</h2>
+		  <p style="font-size: 16px; line-height: 1.5; margin: 10px 0;"><strong style="color: #555;">Nome:</strong> ${formData.get("fullName")}</p>
+		  <p style="font-size: 16px; line-height: 1.5; margin: 10px 0;"><strong style="color: #555;">Cidade:</strong> ${formData.get("city")}</p>
+		  <p style="font-size: 16px; line-height: 1.5; margin: 10px 0;"><strong style="color: #555;">Telefone:</strong> ${formData.get("phone")}</p>
+		  <p style="font-size: 16px; line-height: 1.5; margin: 10px 0;"><strong style="color: #555;">Email:</strong> ${formData.get("email")}</p>
+		  <p style="font-size: 16px; line-height: 1.5; margin: 10px 0;"><strong style="color: #555;">Plano:</strong> ${formData.get("plan")}</p>
+		  <p style="font-size: 16px; line-height: 1.5; margin: 10px 0;"><strong style="color: #555;">Resumo:</strong></p>
+		  <p style="font-size: 16px; line-height: 1.5; color: #333;">${formData.get("message")}</p>
+		</div>
+	  </body>
+	</html>
+  `;
   
-  Nome: ${formData.get("fullName")}
-  Cidade: ${formData.get("city")}
-  Telefone: ${formData.get("phone")}
-  Email: ${formData.get("email")}
-  Plano: ${formData.get("plan")}
-  Resumo: ${formData.get("message")}
-	`;
   
 	const payload = {
 	  from: "naoresponda@larineconsultoria.com",

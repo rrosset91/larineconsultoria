@@ -36,21 +36,25 @@ function handleAutoComplete(field) {
   field.dispatchEvent(new Event("input", { bubbles: true }));
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  formFields.forEach((field) => field.dispatchEvent(new Event("input", { bubbles: true })));
-	fetch("/getdata")
-		.then((response) => {
-			if (!response.ok) {
-				throw new Error("Failed to fetch data");
-			}
-			return response.json();
-		})
-		.then((data) => {
-			console.log("Returned entries:", data);
-		})
-		.catch((error) => {
-			console.error("Error fetching data:", error);
-		});
+document.addEventListener("DOMContentLoaded", async () => {
+	formFields.forEach((field) => field.dispatchEvent(new Event("input", { bubbles: true })));
+	try {
+		const response = await fetch("/getdata");
+		if (!response.ok) {
+			throw new Error("Failed to fetch data");
+		}
+		const data = await response.json();
+		console.log("Returned entries:", data);
+		let kv = [];
+		for (const entry of data) {
+			let obj = {};
+			obj[entry.key] = entry.value;
+			kv.push(obj);
+		}
+		console.log('@@@Sanitized KV:', kv);
+	} catch (error) {
+		console.error("Error fetching data:", error);
+	}
 });
 
 function validateForm() {

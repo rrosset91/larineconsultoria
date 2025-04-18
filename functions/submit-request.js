@@ -34,7 +34,7 @@ export const onRequestPost = async ({ request, env }) => {
 	`;
   
 	const payload = {
-	  from: "consultorialarine@gmail.com",
+	  from: "naoresponda@larineconsultoria.com",
 	  to: "consultorialarine@gmail.com",
 	  subject: "NOVO PEDIDO NO SITE",
 	  text: emailText,

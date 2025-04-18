@@ -145,7 +145,7 @@ async function validateTurnstileToken(token) {
   const response = await fetch("/check-turnstile", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ turnstileToken: token }),
+    body: JSON.stringify({ token: token }),
   });
 
   if (response.ok) {

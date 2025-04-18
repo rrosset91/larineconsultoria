@@ -45,11 +45,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 		}
 		const data = await response.json();
 		console.log("Returned entries:", data);
-		let kv = [];
+		let kv = {};
 		for (const entry of data) {
-			let obj = {};
-			obj[entry.key] = entry.value;
-			kv.push(obj);
+			kv[entry.key] = entry.value;
 		}
 		console.log('@@@Sanitized KV:', kv.assinatura_mensal);
 	} catch (error) {

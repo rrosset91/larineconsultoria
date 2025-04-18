@@ -1,2 +1,6 @@
 name="larineconsultoria"
 pages_build_output_dir = "./"
+
+kv_namespaces = [
+  { binding = "larineconsultoria", id = "255c8083680646568fce835bbbdfdef7" }
+]

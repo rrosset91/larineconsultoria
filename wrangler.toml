@@ -5,3 +5,4 @@ kv_namespaces = [
 ]
 [vars]
 TURNSTILE_SECRET_KEY = "0x4AAAAAAA4oB5jRR9gAVTs2p50_SWvfeds"
+RESEND_API_KEY = "re_DdQ9XQPv_Kp7b9AcNR95tYtcZ4E6hBWac"

@@ -3,3 +3,5 @@ pages_build_output_dir = "./"
 kv_namespaces = [
   { binding = "larineconsultoria", id = "255c8083680646568fce835bbbdfdef7" }
 ]
+[vars]
+TURNSTILE_SECRET_KEY = "0x4AAAAAAA4oB5jRR9gAVTs2p50_SWvfeds"

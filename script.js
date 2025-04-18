@@ -44,16 +44,32 @@ document.addEventListener("DOMContentLoaded", async () => {
 			throw new Error("Failed to fetch data");
 		}
 		const data = await response.json();
-		console.log("Returned entries:", data);
 		let kv = {};
 		for (const entry of data) {
 			kv[entry.key] = entry.value;
 		}
-		console.log('@@@Sanitized KV:', kv.assinatura_mensal);
+		await populateFrontEnd(kv);
 	} catch (error) {
 		console.error("Error fetching data:", error);
 	}
 });
+
+async function populateFrontEnd(kv) {
+	const simplesTitle = document.getElementById("consultoriaSimples");
+	const analiseTitle = document.getElementById("consultoriaAnalise");
+	const assinaturaMensal = document.getElementById("assinaturaMensal");
+	const simplesPrice = document.getElementById("simplesPrice");
+	const analisePrice = document.getElementById("analisePrice");
+	const mensalPrice = document.getElementById("assinaturaPrice");
+
+	simplesTitle.textContent = kv["consultoria_simples_display"];
+	analiseTitle.textContent = kv["consultoria_analise_display"];
+	assinaturaMensal.textContent = kv["assinatura_mensal_display"];
+
+	simplesPrice.textContent = `R$${kv["consultoria_simples"]}`;
+	analisePrice.textContent = `R$${kv["consultoria_analise"]}`;
+	mensalPrice.textContent = `R$${kv["assinatura_mensal"]}*`;
+}
 
 function validateForm() {
   isValid = Array.from(formFields).every((field) => {

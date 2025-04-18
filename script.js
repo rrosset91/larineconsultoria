@@ -191,9 +191,7 @@ submitButton.addEventListener("click", (event) => {
 	  validationHolder.textContent = validationMessage;
 	  return;
 	}
-  
-	const paymentModal = document.getElementById("paymentModal"); 
-	paymentModal.style.display = "block"; 
+	let 
   });
 
   payButton.addEventListener("click", async (event) => {
@@ -253,57 +251,6 @@ submitButton.addEventListener("click", (event) => {
 	  payButton.style.display = "block";
 	}
   });
-  
-
-// submitButton.addEventListener("click", async (event) => {
-//   event.preventDefault();
-//   spinner.style.display = "block";
-//   payButton.style.display = "none";
-//   payErrorMessage.style.display = "none";
-//   try {
-//     const response = await fetch("/create-payment-intent", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ amount: 5000, currency: "brl" }),
-//     });
-
-//     if (!response.ok) {
-//       payErrorMessage.style.display = "block";
-//       throw new Error("Erro ao criar Payment Intent");
-//     }
-//     spinner.style.display = "none";
-//     payButton.style.display = "block";
-
-//     const { clientSecret } = await response.json();
-//     const elements = stripe.elements({ clientSecret, appearance });
-//     const paymentElement = elements.create("payment");
-//     paymentElement.mount("#payment-element");
-
-//     const { error } = await stripe.confirmPayment({
-//       elements,
-//       confirmParams: {
-// 		return_url: 'https://google.com',
-// 	  },
-// 	  redirect: 'always',
-//     });
-
-//     if (error) {
-// 		console.log('@@@@@@@@@');
-// 		const event = new CustomEvent("payment-error", { detail: error.message });
-// 		window.dispatchEvent(event);
-// 	  } else if (paymentIntent && paymentIntent.status === "succeeded") {
-// 		console.log('##########');
-// 		const event = new CustomEvent("payment-success", { detail: paymentIntent });
-// 		window.dispatchEvent(event);
-// 	  } else {
-// 		console.log('&&&&&&&&&');
-// 		const event = new CustomEvent("payment-pending", { detail: paymentIntent });
-// 		window.dispatchEvent(event);
-// 	  }
-//   } catch (error) {
-//     payErrorMessage.textContent = "Erro ao processar o pagamento.";
-//   }
-// });
 
 document.addEventListener("DOMContentLoaded", () => {
   const lazyElements = document.querySelectorAll(".lazy-load");
@@ -339,31 +286,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
-
-function handlePaymentStatus(event){
-	event.preventDefault();
-	let modalBody = document.querySelector('.modal-body');
-	let paymentForm = document.querySelector('.payment-form');
-	let payButton = document.querySelector('#pay');
-	let paymentErrorContent = `<h3>Erro ao processar o pagamento</h3><br><img src="./img/failed-payment.gif" width="50"><p>${event.detail}</p>`;
-	let paymentSuccessContent = `<h3>Pagamento processado com sucesso</h3><br><img src="./img/success-payment.gif" width="50"><p>Seu pagamento foi processado com sucesso. Em breve entraremos em contato!</p>`;
-	let paymentPendingContent = `<h3>Pagamento pendente</h3><br><img src="./img/pending-payment.gif" width="50"><p>Seu pagamento está pendente de confirmação.</p><p>Você será contactado(a) assim que o pagamento for confirmado</p>`;
-
-	paymentForm.style.display = 'none';
-	payButton.style.display = 'none';
-
-	if(event.type === 'payment-error'){
-		modalBody.innerHTML = paymentErrorContent;
-	}
-	if(event.type === 'payment-success'){
-		modalBody.innerHTML = paymentSuccessContent;
-	}
-	if(event.type === 'payment-pending'){
-		modalBody.innerHTML = paymentPendingContent;
-	}
-}
-
-window.addEventListener('payment-error', handlePaymentStatus);
-window.addEventListener('payment-success', handlePaymentStatus);
-window.addEventListener('payment-pending', handlePaymentStatus);

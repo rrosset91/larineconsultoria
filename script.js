@@ -38,6 +38,19 @@ function handleAutoComplete(field) {
 
 document.addEventListener("DOMContentLoaded", () => {
   formFields.forEach((field) => field.dispatchEvent(new Event("input", { bubbles: true })));
+	fetch("/getdata")
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error("Failed to fetch data");
+			}
+			return response.json();
+		})
+		.then((data) => {
+			console.log("Returned entries:", data);
+		})
+		.catch((error) => {
+			console.error("Error fetching data:", error);
+		});
 });
 
 function validateForm() {

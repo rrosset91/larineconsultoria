@@ -153,7 +153,12 @@ submitButton.addEventListener("click", async (event) => {
 
 	submitButton.disabled = true;
 	submitButton.textContent = "Enviando...";
-
+	if (link) {
+		await new Promise((resolve) => {
+			window.open(link, "_blank");
+			resolve();
+		});
+	}
 	try {
 		const response = await fetch("/submit-request", {
 			method: "POST",
@@ -169,13 +174,7 @@ submitButton.addEventListener("click", async (event) => {
 		}
 	} catch (error) {
 		alert("Erro na requisição: " + error.message);
-	}
-
-	if (link) {
-		await new Promise((resolve) => {
-			window.open(link, "_blank");
-			resolve();
-		});
+	}finally{
 		window.location.reload();
 	}
 });

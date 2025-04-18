@@ -4,3 +4,6 @@ pages_build_output_dir = "./"
 binding="DB"
 database_name="larinedb"
 database_id="090877f6-9975-486f-9cd2-2a461c47834c"
+kv_namespaces = [
+  { binding = "larineconsultoria", id = "255c8083680646568fce835bbbdfdef7" }
+]

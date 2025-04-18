@@ -11893,13 +11893,25 @@ h4{
 .snip1517 .plan {
   margin: 0 0.5%;
   width: 32%;
-  height: 36em; /* Converted from 550px assuming 1em = 16px */
+  height: 36em;
   padding-top: 10px;
   position: relative;
   float: left;
   overflow: hidden;
   background-color: #222f3d;
   border-radius: 8px;
+}
+
+@media only screen and (max-width: 1024px) {
+  .snip1517 .plan {
+    width: 48%; /* Two blocks per row on iPad */
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .snip1517 .plan {
+    width: 100%; /* One block per row on smaller screens */
+  }
 }
 
 .snip1517 .plan:hover i,

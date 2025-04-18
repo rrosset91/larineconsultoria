@@ -169,8 +169,6 @@ submitButton.addEventListener("click", async (event) => {
 		}
 	} catch (error) {
 		alert("Erro na requisição: " + error.message);
-		submitButton.disabled = false;
-		submitButton.textContent = "Tentar Novamente";
 	}
 
 	if (link) {
@@ -178,6 +176,7 @@ submitButton.addEventListener("click", async (event) => {
 			window.open(link, "_blank");
 			resolve();
 		});
+		window.location.reload();
 	}
 });
 

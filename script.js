@@ -229,6 +229,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		planPaymentLinks['Avulsa Simples'] = kv["consultoria_simples_link"];
 		planPaymentLinks['Avulsa C/ Análise'] = kv["consultoria_analise_link"];
 		planPaymentLinks['Ilimitado Mensal'] = kv["assinatura_mensal_link"];
+		console.log('@@@@DATA', kv);
 		await populateFrontEnd(kv);
 	} catch (error) {
 		console.error("Error fetching data:", error);

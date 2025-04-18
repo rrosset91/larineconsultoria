@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 			obj[entry.key] = entry.value;
 			kv.push(obj);
 		}
-		console.log('@@@Sanitized KV:', kv);
+		console.log('@@@Sanitized KV:', kv.assinatura_mensal);
 	} catch (error) {
 		console.error("Error fetching data:", error);
 	}

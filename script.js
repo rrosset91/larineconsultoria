@@ -154,10 +154,7 @@ submitButton.addEventListener("click", async (event) => {
 	submitButton.disabled = true;
 	submitButton.textContent = "Enviando...";
 	if (link) {
-		await new Promise((resolve) => {
-			window.open(link, "_blank");
-			resolve();
-		});
+		window.open(link, "_blank");
 	}
 	try {
 		const response = await fetch("/submit-request", {
